@@ -1221,8 +1221,8 @@ async function searchPlayer() {
 
   try {
     // ✅ Updated search endpoint (old suggest.svc.nhl.com is retired)
-    const suggestRes = await fetch(
-      `https://search.d3.nhle.com/api/v1/search/player?q=${encodeURIComponent(query)}&culture=en-us&limit=10&active=true`
+    const statsRes = await fetch(
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api-web.nhle.com/v1/player/${playerId}/landing`)}`
     );
     const players = await suggestRes.json();
 
