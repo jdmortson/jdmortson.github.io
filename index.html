@@ -1212,71 +1212,76 @@
   reveals.forEach(el => observer.observe(el));
 
   // NHL Stats Tracker
-  async function searchPlayer() {
-    const query = document.getElementById('player-search').value.trim();
-    if (!query) return;
-    const result = document.getElementById('player-result');
-    result.innerHTML = '<div class="widget-loading">Searching NHL roster...</div>';
+async function searchPlayer() {
+  const query = document.getElementById('player-search').value.trim();
+  if (!query) return;
 
-    try {
-      // Use NHL API suggest endpoint
-      const suggestRes = await fetch(`https://suggest.svc.nhl.com/svc/suggest/v1/minactiveplayers/${encodeURIComponent(query)}/10`);
-      const suggestData = await suggestRes.json();
-      const players = suggestData.suggestions;
+  const result = document.getElementById('player-result');
+  result.innerHTML = '<div class="widget-loading">Searching NHL roster...</div>';
 
-      if (!players || players.length === 0) {
-        result.innerHTML = '<div class="widget-error">No active player found. Try a different name.</div>';
-        return;
-      }
+  try {
+    // ✅ Updated search endpoint (old suggest.svc.nhl.com is retired)
+    const suggestRes = await fetch(
+      `https://search.d3.nhle.com/api/v1/search/player?q=${encodeURIComponent(query)}&culture=en-us&limit=10&active=true`
+    );
+    const players = await suggestRes.json();
 
-      // Parse first result: "id|lastName|firstName|..."
-      const parts = players[0].split('|');
-      const playerId = parts[0];
-      const lastName = parts[1];
-      const firstName = parts[2];
-      const teamAbbrev = parts[5] || '';
-      const number = parts[6] || '–';
-      const position = parts[7] || '';
+    if (!players || players.length === 0) {
+      result.innerHTML = '<div class="widget-error">No active player found. Try a different name.</div>';
+      return;
+    }
 
-      // Fetch current season stats
-      const statsRes = await fetch(`https://api-web.nhle.com/v1/player/${playerId}/landing`);
-      const statsData = await statsRes.json();
+    // ✅ New API returns objects, not pipe-delimited strings
+    const player = players[0];
+    const playerId = player.playerId;
+    const firstName = player.name.split(' ')[0];
+    const lastName = player.name.split(' ').slice(1).join(' ');
+    const teamAbbrev = player.teamAbbrevs || '–';
+    const position = player.positionCode || '–';
 
-      let goals = '–', assists = '–', points = '–', plusMinus = '–', gamesPlayed = '–';
+    // Fetch current season stats (this endpoint is still valid ✅)
+    const statsRes = await fetch(`https://api-web.nhle.com/v1/player/${playerId}/landing`);
+    const statsData = await statsRes.json();
 
-      const seasonStats = statsData?.featuredStats?.regularSeason?.subSeason;
-      if (seasonStats) {
-        goals = seasonStats.goals ?? '–';
-        assists = seasonStats.assists ?? '–';
-        points = seasonStats.points ?? '–';
-        plusMinus = seasonStats.plusMinus !== undefined ? (seasonStats.plusMinus > 0 ? '+' + seasonStats.plusMinus : seasonStats.plusMinus) : '–';
-        gamesPlayed = seasonStats.gamesPlayed ?? '–';
-      }
+    let goals = '–', assists = '–', points = '–', plusMinus = '–', gamesPlayed = '–';
+    let sweaterNumber = player.sweaterNumber ?? '–';
 
-      result.innerHTML = `
-        <div class="player-card">
-          <div class="player-number">#${number}</div>
-          <div>
-            <div class="player-name-display">${firstName} ${lastName}</div>
-            <div class="player-team">${teamAbbrev}  ·  ${position}</div>
-            <div class="player-stats-row">
-              <div class="pstat"><div class="pstat-val">${goals}</div><div class="pstat-key">G</div></div>
-              <div class="pstat"><div class="pstat-val">${assists}</div><div class="pstat-key">A</div></div>
-              <div class="pstat"><div class="pstat-val">${points}</div><div class="pstat-key">PTS</div></div>
-              <div class="pstat"><div class="pstat-val">${plusMinus}</div><div class="pstat-key">+/−</div></div>
-              <div class="pstat"><div class="pstat-val">${gamesPlayed}</div><div class="pstat-key">GP</div></div>
-            </div>
+    const seasonStats = statsData?.featuredStats?.regularSeason?.subSeason;
+    if (seasonStats) {
+      goals = seasonStats.goals ?? '–';
+      assists = seasonStats.assists ?? '–';
+      points = seasonStats.points ?? '–';
+      plusMinus = seasonStats.plusMinus !== undefined
+        ? (seasonStats.plusMinus > 0 ? '+' + seasonStats.plusMinus : seasonStats.plusMinus)
+        : '–';
+      gamesPlayed = seasonStats.gamesPlayed ?? '–';
+    }
+
+    result.innerHTML = `
+      <div class="player-card">
+        <div class="player-number">#${sweaterNumber}</div>
+        <div>
+          <div class="player-name-display">${firstName} ${lastName}</div>
+          <div class="player-team">${teamAbbrev} · ${position}</div>
+          <div class="player-stats-row">
+            <div class="pstat"><div class="pstat-val">${goals}</div><div class="pstat-key">G</div></div>
+            <div class="pstat"><div class="pstat-val">${assists}</div><div class="pstat-key">A</div></div>
+            <div class="pstat"><div class="pstat-val">${points}</div><div class="pstat-key">PTS</div></div>
+            <div class="pstat"><div class="pstat-val">${plusMinus}</div><div class="pstat-key">+/−</div></div>
+            <div class="pstat"><div class="pstat-val">${gamesPlayed}</div><div class="pstat-key">GP</div></div>
           </div>
         </div>
-      `;
-    } catch (e) {
-      result.innerHTML = '<div class="widget-error">Could not fetch stats. Try again in a moment.</div>';
-    }
-  }
+      </div>
+    `;
 
-  document.getElementById('player-search').addEventListener('keydown', e => {
-    if (e.key === 'Enter') searchPlayer();
-  });
+  } catch (e) {
+    result.innerHTML = '<div class="widget-error">Could not fetch stats. Try again in a moment.</div>';
+  }
+}
+
+document.getElementById('player-search').addEventListener('keydown', e => {
+  if (e.key === 'Enter') searchPlayer();
+});
 </script>
 </body>
 </html>
