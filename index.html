@@ -612,6 +612,64 @@
     z-index: 0;
   }
 
+ .hockey-timeline {
+  position: relative;
+  padding: 0.5rem 0;
+}
+.hockey-timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--blue), rgba(14,165,233,0.1));
+  transform: translateX(-50%);
+}
+.timeline-item {
+  display: grid;
+  grid-template-columns: 1fr 20px 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.75rem;
+  position: relative;
+}
+.timeline-left {
+  text-align: right;
+}
+.timeline-year {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--blue);
+  letter-spacing: 0.08em;
+}
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--blue);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--blue);
+  justify-self: center;
+  position: relative;
+  z-index: 1;
+}
+.timeline-right {
+  text-align: left;
+}
+.timeline-team {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  margin-bottom: 0.2rem;
+}
+.timeline-detail {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
   /* Contact */
   #contact {
     background: var(--black);
@@ -1105,13 +1163,68 @@
         </div>
       </div>
     </div>
-    <div>
-      <div style="padding: 2rem; background: var(--black); border: 1px solid var(--border);">
-        <p style="font-size: 0.9rem; color: rgba(240,246,255,0.7); line-height: 1.8;">
-          Competing at the NCAA level while maintaining a 4.0 GPA requires the same discipline I bring to every project: preparation, execution, and resilience. I've learned to thrive under pressure, communicate in high-stakes moments, and hold myself and others accountable.
-        </p>
-      </div>
+    <div class="hockey-timeline">
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2026–27</div>
     </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">UMass Boston Beacons</div>
+      <div class="timeline-detail">NCAA D-III · Assistant Captain</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2025–26</div>
+    </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">UMass Boston Beacons</div>
+      <div class="timeline-detail">NCAA D-III · Assistant Captain</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2024–25</div>
+    </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">UMass Boston Beacons</div>
+      <div class="timeline-detail">NCAA D-III · Forward</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2023–24</div>
+    </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">UMass Boston Beacons</div>
+      <div class="timeline-detail">NCAA D-III · Forward</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2022–23</div>
+    </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">Add your team here</div>
+      <div class="timeline-detail">League · Role</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2021–22</div>
+    </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">Add your team here</div>
+      <div class="timeline-detail">League · Role</div>
+    </div>
+  </div>
+</div>
   </div>
   <div class="hockey-bg-text">HC</div>
 </section>
