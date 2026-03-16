@@ -1211,7 +1211,6 @@
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
 
-  // NHL Stats Tracker
 async function searchPlayer() {
   const query = document.getElementById('player-search').value.trim();
   if (!query) return;
@@ -1220,9 +1219,8 @@ async function searchPlayer() {
   result.innerHTML = '<div class="widget-loading">Searching NHL roster...</div>';
 
   try {
-    // ✅ Updated search endpoint (old suggest.svc.nhl.com is retired)
-    const statsRes = await fetch(
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api-web.nhle.com/v1/player/${playerId}/landing`)}`
+    const suggestRes = await fetch(
+      `https://search.d3.nhle.com/api/v1/search/player?q=${encodeURIComponent(query)}&culture=en-us&limit=10&active=true`
     );
     const players = await suggestRes.json();
 
@@ -1231,20 +1229,20 @@ async function searchPlayer() {
       return;
     }
 
-    // ✅ New API returns objects, not pipe-delimited strings
     const player = players[0];
     const playerId = player.playerId;
     const firstName = player.name.split(' ')[0];
     const lastName = player.name.split(' ').slice(1).join(' ');
     const teamAbbrev = player.teamAbbrevs || '–';
     const position = player.positionCode || '–';
+    const sweaterNumber = player.sweaterNumber ?? '–';
 
-    // Fetch current season stats (this endpoint is still valid ✅)
-    const statsRes = await fetch(`https://corsproxy.io/?url=https://api-web.nhle.com/v1/player/${playerId}/landing`);
+    const statsRes = await fetch(
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api-web.nhle.com/v1/player/${playerId}/landing`)}`
+    );
     const statsData = await statsRes.json();
 
     let goals = '–', assists = '–', points = '–', plusMinus = '–', gamesPlayed = '–';
-    let sweaterNumber = player.sweaterNumber ?? '–';
 
     const seasonStats = statsData?.featuredStats?.regularSeason?.subSeason;
     if (seasonStats) {
@@ -1275,6 +1273,7 @@ async function searchPlayer() {
     `;
 
   } catch (e) {
+    console.error(e);
     result.innerHTML = '<div class="widget-error">Could not fetch stats. Try again in a moment.</div>';
   }
 }
