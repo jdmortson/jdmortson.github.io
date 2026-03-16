@@ -612,6 +612,64 @@
     z-index: 0;
   }
 
+ .hockey-timeline {
+  position: relative;
+  padding: 0.5rem 0;
+}
+.hockey-timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--blue), rgba(14,165,233,0.1));
+  transform: translateX(-50%);
+}
+.timeline-item {
+  display: grid;
+  grid-template-columns: 1fr 20px 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.75rem;
+  position: relative;
+}
+.timeline-left {
+  text-align: right;
+}
+.timeline-year {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--blue);
+  letter-spacing: 0.08em;
+}
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--blue);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--blue);
+  justify-self: center;
+  position: relative;
+  z-index: 1;
+}
+.timeline-right {
+  text-align: left;
+}
+.timeline-team {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  margin-bottom: 0.2rem;
+}
+.timeline-detail {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
   /* Contact */
   #contact {
     background: var(--black);
@@ -799,6 +857,55 @@
     .exp-item::before { display: none; }
     footer { flex-direction: column; gap: 0.5rem; text-align: center; }
   }
+
+  @media (max-width: 600px) {
+  .stats-widget {
+    padding: 1rem;
+  }
+
+  .search-row {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .search-btn {
+    width: 100%;
+    padding: 0.75rem;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .player-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .player-number {
+    font-size: 2rem;
+    min-width: unset;
+  }
+
+  .player-stats-row {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .pstat-val {
+    font-size: 1.1rem;
+  }
+
+  .player-name-display {
+    font-size: 1rem;
+  }
+
+  .project-featured {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -832,8 +939,6 @@
         <span class="highlight">CS Student</span>
         <div class="divider"></div>
         <span>NCAA Athlete</span>
-        <div class="divider"></div>
-        <span>Problem Solver</span>
       </div>
       <div class="hero-actions">
         <a href="#experience" class="btn-primary">View Work</a>
@@ -860,7 +965,7 @@
   <div class="section-label">01 — About</div>
   <div class="about-grid reveal">
     <div>
-      <h2 class="section-title">Building at the<br>intersection of<br>data & impact</h2>
+      <h2 class="section-title">Working at the<br>intersection of<br>business & data</h2>
       <p class="about-bio">
         I'm a Computer Science student at UMass Boston pursuing an accelerated MBA in Business Data Analytics with a 4.0 GPA while competing as a forward on the NCAA Men's Ice Hockey team. I've interned at Henry Ford Health System and Blue Cross Blue Shield, building ETL pipelines, enterprise dashboards, and large scale device deployments. This summer I'm joining <strong>Biogen</strong> as an IT intern.
       </p>
@@ -871,15 +976,15 @@
     <div class="about-stats">
       <div class="stat-card">
         <div class="stat-value">4.0</div>
-        <div class="stat-label">GPA — UMass Boston</div>
+        <div class="stat-label">GPA</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">2</div>
-        <div class="stat-label">Internships Completed</div>
+        <div class="stat-value">3</div>
+        <div class="stat-label">Internships</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">20+</div>
-        <div class="stat-label">Years Hockey</div>
+        <div class="stat-value">∞</div>
+        <div class="stat-label">Things to Learn</div>
       </div>
       <div class="stat-card">
         <div class="stat-value">50K+</div>
@@ -963,7 +1068,7 @@
 
     <div class="exp-item">
       <div>
-        <div class="exp-date">Summer 2026</div>
+        <div class="exp-date">June - August 2026</div>
         <div class="exp-location">Cambridge, MA</div>
       </div>
       <div>
@@ -978,7 +1083,7 @@
 
     <div class="exp-item">
       <div>
-        <div class="exp-date">Jun – Aug 2025</div>
+        <div class="exp-date">June – August 2025</div>
         <div class="exp-location">Providence, RI</div>
       </div>
       <div>
@@ -995,7 +1100,7 @@
 
     <div class="exp-item">
       <div>
-        <div class="exp-date">May 2024 – Mar 2025</div>
+        <div class="exp-date">May 2024 – March 2025</div>
         <div class="exp-location">Detroit, MI</div>
       </div>
       <div>
@@ -1015,7 +1120,7 @@
         <div class="exp-location">Detroit, MI</div>
       </div>
       <div>
-        <div class="exp-role">Deckhand & Asst. Harbormaster</div>
+        <div class="exp-role">Deckhand & Assistant Harbormaster</div>
         <div class="exp-company">Detroit Yacht Club</div>
         <ul class="exp-bullets">
           <li>Delivered elevated member experience during peak boating season while managing docks, equipment, and facilities.</li>
@@ -1073,28 +1178,28 @@
         <div class="achievement-icon">🏒</div>
         <div class="achievement-text">
           <h4>NCAA Men's Ice Hockey</h4>
-          <p>UMass Boston Beacons — Forward — 2023–Present</p>
+          <p>UMass Boston Beacons — Forward</p>
         </div>
       </div>
       <div class="achievement">
         <div class="achievement-icon">⭐</div>
         <div class="achievement-text">
-          <h4>2025–26 Assistant Captain</h4>
-          <p>Elected team leader — responsible for culture, communication, and on-ice execution</p>
+          <h4>2025–2026 Assistant Captain</h4>
+          <p>Elected team leader responsible for culture, communication, and on-ice performance</p>
         </div>
       </div>
       <div class="achievement">
         <div class="achievement-icon">🎓</div>
         <div class="achievement-text">
           <h4>NEHC All-Academic Team</h4>
-          <p>2024–26 New England Hockey Conference Men's All-Academic Team honoree</p>
+          <p>2024–2026 New England Hockey Conference Men's All-Academic Team honoree</p>
         </div>
       </div>
       <div class="achievement">
         <div class="achievement-icon">🏅</div>
         <div class="achievement-text">
           <h4>Peter Cahill Unsung Hero Award</h4>
-          <p>2023–24 recipient — recognized for contribution, work ethic, and team-first mentality</p>
+          <p>2023–2024 recipient — recognized for dedication, work ethic, and team-first mentality</p>
         </div>
       </div>
       <div class="achievement">
@@ -1105,13 +1210,68 @@
         </div>
       </div>
     </div>
-    <div>
-      <div style="padding: 2rem; background: var(--black); border: 1px solid var(--border);">
-        <p style="font-size: 0.9rem; color: rgba(240,246,255,0.7); line-height: 1.8;">
-          Competing at the NCAA level while maintaining a 4.0 GPA requires the same discipline I bring to every project: preparation, execution, and resilience. I've learned to thrive under pressure, communicate in high-stakes moments, and hold myself and others accountable.
-        </p>
-      </div>
+    <div class="hockey-timeline">
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2023–2027</div>
     </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">UMass Boston Beacons</div>
+      <div class="timeline-detail">NCAA D-III · Assistant Captain</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2020-2023</div>
+    </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">Soo Eagles</div>
+      <div class="timeline-detail">NOJHL · Captain</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2018-2020</div>
+    </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">Victory Honda</div>
+      <div class="timeline-detail">MAHA AAA · Captain</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2017-2018</div>
+    </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">Compuware</div>
+      <div class="timeline-detail">MAHA AAA · Captain</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2016-2017</div>
+    </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">Honeybaked</div>
+      <div class="timeline-detail">MAHA AAA · Captain</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-left">
+      <div class="timeline-year">2015-2016</div>
+    </div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-right">
+      <div class="timeline-team">Victory Honda</div>
+      <div class="timeline-detail">MAHA AAA · Captain</div>
+    </div>
+  </div>
+</div>
   </div>
   <div class="hockey-bg-text">HC</div>
 </section>
