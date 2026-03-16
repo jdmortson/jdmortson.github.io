@@ -33,33 +33,6 @@
     font-weight: 400;
     line-height: 1.6;
     overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    width: 10px; height: 10px;
-    background: var(--blue);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s ease;
-    mix-blend-mode: screen;
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(14,165,233,0.5);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    transition: transform 0.18s ease, width 0.2s, height 0.2s, border-color 0.2s;
-  }
-  body:has(a:hover) .cursor-ring,
-  body:has(button:hover) .cursor-ring {
-    width: 52px; height: 52px;
-    border-color: var(--blue);
   }
 
   /* Nav */
@@ -191,7 +164,7 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
-    border: none; cursor: none;
+    border: none;
     transition: background 0.2s, transform 0.2s;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
   }
@@ -207,7 +180,6 @@
     text-transform: uppercase;
     text-decoration: none;
     border: 1px solid var(--border);
-    cursor: none;
     transition: border-color 0.2s, color 0.2s, transform 0.2s;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
   }
@@ -826,15 +798,10 @@
     .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
     .exp-item::before { display: none; }
     footer { flex-direction: column; gap: 0.5rem; text-align: center; }
-    body { cursor: auto; }
-    .cursor, .cursor-ring { display: none; }
   }
 </style>
 </head>
 <body>
-
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
 
 <!-- NAV -->
 <nav>
@@ -1190,14 +1157,6 @@
       photoFrame.insertBefore(placeholder, photoFrame.firstChild);
     });
   }
-
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  document.addEventListener('mousemove', e => {
-    cursor.style.transform = `translate(${e.clientX - 5}px, ${e.clientY - 5}px)`;
-    ring.style.transform = `translate(${e.clientX - 18}px, ${e.clientY - 18}px)`;
-  });
 
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
